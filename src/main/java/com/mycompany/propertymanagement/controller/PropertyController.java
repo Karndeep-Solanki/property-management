@@ -48,12 +48,19 @@ public class PropertyController {
         //System.out.println(dummy);
         //System.out.println(dbUrl);
 
-
-
         List<PropertyDTO> allProperties = propertyService.getAllProperties();
 
         ResponseEntity<List<PropertyDTO>> responseEntity = new ResponseEntity<>(allProperties,HttpStatus.OK);
         return responseEntity;
+    }
+
+    @GetMapping("/properties/users/{userId}")
+    public ResponseEntity<List<PropertyDTO>> getAllPropertiesforUser(@PathVariable("userId")Long userId){
+
+        List<PropertyDTO> allProperties = propertyService.getAllPropertiesForUser(userId);
+
+        return new ResponseEntity<>(allProperties,HttpStatus.OK);
+
     }
 
     @PutMapping("/properties/{propertyId}")

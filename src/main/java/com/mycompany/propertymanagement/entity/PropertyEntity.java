@@ -27,4 +27,9 @@ public class PropertyEntity {
     private Double price;
     private String address;
 
+    //@ManyToOne // many property belongs to one user
+    @ManyToOne(fetch = FetchType.LAZY)//it will not fetch the user data while fatching property (by default its EAGER, that fetches)
+    @JoinColumn(name="USER_ID",nullable = false) // Foreign key:new column "USER_ID" will be created in propety table, and the value of UserEntity's Primary key is stored here as foreign key
+    private UserEntity userEntity;
+
 }

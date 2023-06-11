@@ -2,9 +2,11 @@ package com.mycompany.propertymanagement.service.impl;
 
 import com.mycompany.propertymanagement.converter.UserConverter;
 import com.mycompany.propertymanagement.dto.UserDTO;
+import com.mycompany.propertymanagement.entity.AddressEntity;
 import com.mycompany.propertymanagement.entity.UserEntity;
 import com.mycompany.propertymanagement.exception.BussinessException;
 import com.mycompany.propertymanagement.exception.ErrorModel;
+import com.mycompany.propertymanagement.repository.AddressRepository;
 import com.mycompany.propertymanagement.repository.UserRepository;
 import com.mycompany.propertymanagement.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+    
+    @Autowired
+    private AddressRepository addressRepository;
 
     @Autowired
     private UserConverter userConverter;
@@ -44,9 +49,20 @@ public class UserServiceImpl implements UserService {
             throw new BussinessException(errorModelList);
 
         }else{
+            
             UserEntity userEntity = userConverter.ConvertDTOtoEntity(userDTO);
 
             UserEntity userEntity1 = userRepository.save(userEntity);// problem: this will allow to make multiple account on same Email
+
+            AddressEntity ae= new AddressEntity();
+            ae.setHouseNo(userDTO.getHouseNo());
+            ae.setCity(userDTO.getCity());
+            ae.setPostalCode(userDTO.getPostalCode());
+            ae.setStreet(userDTO.getStreet());
+            ae.setCountry(userDTO.getCountry());
+            
+            ae.setUserEntity(userEntity1);
+            addressRepository.save(ae);
 
             dto = userConverter.ConvertEntitytoDTO(userEntity1);
         }
