@@ -45,8 +45,8 @@ public class PropertyController {
     @GetMapping("/properties")
     public ResponseEntity<List<PropertyDTO>> getAllProperties(){
 
-        System.out.println(dummy);
-        System.out.println(dbUrl);
+        //System.out.println(dummy);
+        //System.out.println(dbUrl);
 
 
 
