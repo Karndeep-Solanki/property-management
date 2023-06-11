@@ -11,14 +11,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api/v1/user")
 public class UserController {
 
     @Autowired
     private UserService userService;
-    @PostMapping("/register")
-    public ResponseEntity<UserDTO> register(@RequestBody UserDTO userDTO){
+    @PostMapping("/register") //@Valid is responsible to kick error messages inside UserDTO,e.g.,@Notnull/@NotEmpty before sqlexception interrupt application.
+    public ResponseEntity<UserDTO> register(@Valid @RequestBody UserDTO userDTO){
 
         UserDTO userDTO1 = userService.register(userDTO);
 
@@ -27,7 +29,7 @@ public class UserController {
         return responseEntity;
     }
     @PostMapping("/login")
-    public ResponseEntity<UserDTO> login(@RequestBody UserDTO userDTO){
+    public ResponseEntity<UserDTO> login(@Valid @RequestBody UserDTO userDTO){
 
         UserDTO userDTO1 = userService.login(userDTO.getOwnerEmail(),userDTO.getPassword());
 
